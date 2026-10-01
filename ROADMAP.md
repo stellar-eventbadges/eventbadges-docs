@@ -7,7 +7,7 @@ What is next for `eventbadges-docs`, in order. Anything not listed as done is
 
 - [x] Repository governance: AGENTS.md, CONTRIBUTING.md, ROADMAP.md, LICENSE,
       .gitignore, .gitattributes (2026-10-01).
-- [ ] v0 book — **blocked on the playbook file, see below.**
+- [ ] v0 book, written from the real v0 contract code.
 
 ## Next
 
@@ -19,17 +19,24 @@ What is next for `eventbadges-docs`, in order. Anything not listed as done is
 - [ ] Dependency-free link checker (`scripts/check-links.mjs`) with tests.
 - [ ] CI (`docs.yml`): link check, checker tests, mdBook build.
 
-## Blocked on the playbook
+## Contract scope the book describes
 
-The book describes what the code does; the contract does not exist yet, and
-its scope is defined by the playbook (section 9), which was not found
-on this machine at Session 0. Until Tim supplies it, no scope is invented.
+Set by `STELLAR-BUILD-PLAYBOOK-v3.md` section 9 (in
+`~/Desktop/Drips/_reference/playbooks/`, confirmed 2026-10-02): organizers
+create events, attendees claim non-transferable attendance badges, transfers
+always fail, hashes only on-chain. The book is still written from the real
+code once it exists, not from the playbook alone.
+
+Deliberately unimplemented in the v0 contract (section 9): unique per-attendee
+claim codes via Merkle proofs, badge metadata and images, batch awarding,
+event series and streak badges, pagination for `badges_of`.
 
 ## Decisions needed from Tim
 
-1. **Playbook location.** Provide
-   `~/Desktop/Drips/_reference/playbooks/STELLAR-BUILD-PLAYBOOK-v3.md` so the
-   docs plan can be written against a real scope.
+1. **Doc set layer.** v3 section 4 shapes the docs v0 book; v4 adds the
+   standard doc set (architecture, limitations, threat-model, pilot templates
+   and the error-sync checker). Build v0 from v3 section 4 plus the v4 layer,
+   or wait for Tim's call.
 
 ## Explicitly out of scope
 
