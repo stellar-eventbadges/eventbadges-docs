@@ -2,7 +2,7 @@
 
 Plain-language versions of every failure the contract can report, for the
 non-technical reader. The authoritative table — with the exact wording the
-app must display — is
+app displays, and must never reword — is
 [`ERRORS.md`](https://github.com/stellar-eventbadges/eventbadges-contracts/blob/main/ERRORS.md)
 in the contracts repo. Each row below links the error's code and variant.
 
@@ -39,4 +39,7 @@ in the contracts repo. Each row below links the error's code and variant.
   [privacy](privacy.md), deletion is not a thing).
 - **Transaction failed but the wallet says "submitted".** A rejected call
   changes nothing on-chain — re-reading `has_badge` is always the ground
-  truth. (An app will make this visible; Not implemented yet.)
+  truth. (Built, never run: the app shows the transaction hash and an explorer
+  link when a write succeeds, and the claim flow re-reads the badge list after
+  a successful claim. It does **not** re-read after a failed one — press "Show
+  badges" to check. None of this has yet met a real failure.)

@@ -1,8 +1,9 @@
 # Product requirements
 
 This page states what the product **is, as built** — not a wish list. Every
-requirement traces to real code in `eventbadges-contracts`. Anything not in
-the code is listed under [Not built](#not-built-yet).
+requirement traces to real code, in `eventbadges-contracts` for rows 1–10 and
+in `eventbadges-app` for rows 11–17. Anything not in the code is listed under
+[Not built](#not-built-yet).
 
 ## Problem
 
@@ -35,15 +36,38 @@ proves nothing about who earned it.
 | 9 | Records stay readable past the deadline without manual babysitting. | TTL from `closes_at` + 30-day margin, 7-day floor, `src/storage.rs`; tests `create_event_extends_the_*_ttl` |
 | 10 | No personal data on-chain — hashes and opaque values only. | [Privacy](privacy.md); types in `src/types.rs` |
 
+## The app, as built
+
+`eventbadges-app` is a browser app with four screens — home, organizer, claim,
+verify. Every contract call it makes is one of the seven entrypoints above;
+there is no other path from the app to the chain, and no backend of any kind.
+
+| # | Requirement | Where it lives |
+|---|---|---|
+| 11 | An organizer records an event in the browser and sees the generated claim code exactly once. | `src/pages/OrganizerPage.tsx`, `src/lib/claimCode.ts` |
+| 12 | An attendee claims a badge by pasting the organizer's code, and lists the badges an address holds. | `src/pages/AttendeePage.tsx`, `src/lib/flow.ts` |
+| 13 | Anyone, with no wallet connected, can verify that an address holds a badge for an event. | `src/pages/VerifyPage.tsx` |
+| 14 | Contract failures are shown with the wording from `ERRORS.md`, never reworded in the app. | `src/lib/contractErrors.ts`, with a test that fails if a variant has no mapped message in either direction |
+| 15 | The app refuses to run on any network but testnet, and re-reads the wallet's network before every write. | `src/lib/network.ts`, `src/lib/flow.ts`; the wrong-network refusal is tested in `src/lib/flow.test.ts` |
+| 16 | Every screen and every state it can be in is keyboard-operable and passes an automated accessibility check. | axe-core check in `src/test/render.tsx`, run by `npm test` |
+| 17 | Nothing leaves the browser except the RPC call: no backend, no analytics, no third-party scripts. | by construction; stated in the app repository's README |
+
+**Every one of those rows is "built, never run."** What passes is unit, render,
+accessibility, lint, type-check and build. What has never happened is the part
+that matters to a person: no wallet has connected or signed, and no contract
+call has reached a deployed contract, because none exists. The app repository
+says so itself, under "What is proven vs assumed".
+
 ## Not built yet
 
-- The web app (organizer, attendee and public verify screens) — planned as
-  `eventbadges-app`.
 - Everything under "Deliberately unimplemented" in the contracts
   [ROADMAP](https://github.com/stellar-eventbadges/eventbadges-contracts/blob/main/ROADMAP.md):
   per-attendee Merkle claim codes, badge metadata, batch awarding, event
   series, pagination.
-- Any deployment. There is no testnet instance; there is no pilot.
+- Everything in the app repository's `docs/issue-drafts/`, including the
+  per-event fresh-address advice that [privacy](privacy.md) recommends.
+- Any deployment. There is no testnet instance; there is no pilot; there is no
+  contract id in the app's configuration.
 
 ## Non-goals
 

@@ -8,8 +8,9 @@ was not written carefully.
 
 Testnet only. No mainnet deployment exists, none is planned for v0, and no
 real value should ever touch this contract. Nothing here has run against any
-live network: the contract is built and locally verified, its CI is green,
-and that is the entire operational history of this project.
+live network: the contract and the app are both built and locally verified,
+the contract's CI is green, and that is the entire operational history of this
+project.
 
 ## What is not enforced on-chain
 
@@ -30,8 +31,9 @@ and that is the entire operational history of this project.
 ## Not yet handled
 
 Real gaps from the contracts
-[ROADMAP](https://github.com/stellar-eventbadges/eventbadges-contracts/blob/main/ROADMAP.md),
-stated as risks rather than hidden:
+[ROADMAP](https://github.com/stellar-eventbadges/eventbadges-contracts/blob/main/ROADMAP.md)
+and the app repository's `docs/issue-drafts/`, stated as risks rather than
+hidden:
 
 - **A leaked claim code cannot be rotated.** The hash is fixed at creation;
   the only responses are procedural (short window, tight cap, revoke).
@@ -43,9 +45,17 @@ stated as risks rather than hidden:
   on-chain. An indexer reading `badge_claimed` events is the workaround.
 - **No claim-code expiry inside the window.** `closes_at` is the only
   timing control.
-- **The app does not exist.** Every interaction today is a raw contract
-  call; the usability layer that would make error messages readable (per
-  `ERRORS.md`) is planned, not built.
+- **Nothing in the app has ever run.** The four screens exist and pass their
+  checks, but no wallet has connected, signed or submitted through the app, and
+  no contract call has ever reached a deployed contract. The `ERRORS.md`
+  wording is mapped and unit-tested both ways, and has still never been seen
+  rendered by a real failure. Treat the app as a user interface nobody has
+  used, not as a working product — and expect the first person to run it to
+  find what static checks cannot.
+- **The app's CI has never run.** `.github/workflows/web.yml` exists and its
+  four steps pass locally, but it has never executed on GitHub. One green run
+  is pending, and a slow cold-runner install of the wallet kit's dependency
+  tree is the most likely first failure.
 
 ## Pilot evidence boundary
 

@@ -48,6 +48,10 @@ agreed to (their name, their group's name, or neither).
       committed.
 - [ ] Confirm every pilot user has a working Soroban wallet on the device
       they will actually use (phone-first is the assumption).
+- [ ] Drive one full flow yourself, end to end, before a participant sees it.
+      No flow has ever run against a real wallet, so the maintainer — not a
+      pilot user — is the first real user, and the first sign that something
+      the 141 tests cannot catch is wrong.
 - [ ] Re-read [limitations](limitations.md) and be able to say, out loud,
       what this software is not.
 

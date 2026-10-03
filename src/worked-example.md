@@ -33,7 +33,7 @@ creating events in Ada's name.
 
 Ben attended the meetup. Ada gave him the claim code in person (a printout,
 a QR code on the door — out-of-band, never on-chain). Ben opens any Soroban
-wallet and calls:
+wallet — or the app's claim screen — and calls:
 
 ```
 claim(event_id: 1, attendee: Ben's wallet address, claim_code: <the secret>)
@@ -85,8 +85,11 @@ claim window without anyone paying to store them forever.
 
 ## What this example skips
 
-- The app does not exist yet, so today every step above means signing raw
-  contract calls with a wallet or the Stellar CLI. The screens arrive with
-  `eventbadges-app` (Not implemented yet).
+- **Nobody has been through these steps.** The app has a screen for each of
+  them (`eventbadges-app`: home, organizer, claim, verify) and they call
+  exactly the entrypoints above — but it is **built, never run**. No wallet has
+  connected, signed or submitted through it, and no contract is deployed, so
+  not one of the calls above has ever executed. Read the screens as written
+  and unexercised, not as a transcript of something that happened.
 - Nothing has been deployed to any network, so no real event id, address or
   transaction exists. Every value above is a placeholder.

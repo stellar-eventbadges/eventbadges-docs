@@ -5,13 +5,14 @@ The documentation for `eventbadges`, written as an
 Stellar/Soroban project for **non-transferable event attendance badges**: an
 organizer records an event, attendees claim a badge with a secret claim
 code, and nobody — including the organizer — can move a badge between
-addresses. **Testnet only. Nothing is deployed, and no pilot has happened.**
+addresses. **Testnet only. Nothing is deployed, no pilot has happened, and no
+flow has ever run against a real wallet.**
 
 Part of the eventbadges project, which is three repositories:
 [`eventbadges-contracts`](https://github.com/stellar-eventbadges/eventbadges-contracts)
 (the Rust contract, built and locally verified),
 [`eventbadges-app`](https://github.com/stellar-eventbadges/eventbadges-app)
-(the web app, not built yet) and this one.
+(the web app, built and locally verified, never run) and this one.
 
 ## The book
 
@@ -69,10 +70,11 @@ mdbook serve --open
 
 The full set is in [AGENTS.md](AGENTS.md). The short version:
 
-- Describe only what the code does. Anything not built is marked as such.
+- Describe only what the code does. Anything not built is marked as such, and
+  anything built but never executed is marked **Built, never run**.
 - Every technical claim points at a real file, function, test or command in
-  `eventbadges-contracts` (or will point at `eventbadges-app` once that
-  exists). Where the book and the code disagree, the code wins.
+  `eventbadges-contracts` or `eventbadges-app`. Where the book and the code
+  disagree, the code wins.
 - Never invent addresses, transaction hashes, testers, events or outcomes.
   No pilot is recorded until it really happens.
 - Never include personal data, even in examples — placeholders only.

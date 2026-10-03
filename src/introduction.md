@@ -21,14 +21,29 @@ This book has two audiences:
 - The contract (`eventbadges-contracts`) is **built and locally verified**:
   24 tests pass, the error table is machine-checked against the code, and the
   wasm builds with Stellar CLI 28.1.0. Its CI is green on GitHub.
-- **Nothing is deployed.** No contract exists on any network.
-- The app (`eventbadges-app`) is **not built yet** (planned Day 5).
+- The app (`eventbadges-app`) is **built and locally verified**: four screens
+  (home, organizer, claim, verify), 141 unit and render tests including an
+  automated accessibility check on every screen and state, plus lint, strict
+  type-check and a production build, all green. Its CI workflow is written but
+  has never run on GitHub, so that one is unproven.
+- **Nothing is deployed.** No contract exists on any network, and the app's
+  contract id is still a placeholder.
+- **Nothing has ever run against a real wallet or a real contract.** No
+  wallet has connected, signed or submitted through the app, and no
+  `create_event`, `claim`, `award`, `revoke`, `get_event`, `has_badge` or
+  `badges_of` call has ever reached a deployed contract. The app repository
+  states this itself, under "What is proven vs assumed".
 - **No pilot has happened.** No organizer, no attendee, no real event. The
   [Pilots](pilots/README.md) page is a placeholder until a real pilot
   produces real facts.
 
-Every page in this book describes only what the code does today. Anything
-else is marked **Not implemented yet**.
+Every page in this book describes only what the code does today, using two
+status markers that mean different things:
+
+- **Not implemented yet** — planned, not written. There is no code.
+- **Built, never run** — written and passing its checks, but never executed
+  against the real thing. **Every part of the app is in this category today**,
+  and this marker is not a polite word for "working".
 
 ## The one-paragraph version
 

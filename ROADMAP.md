@@ -44,8 +44,10 @@ event series and streak badges, pagination for `badges_of`.
       written from anything but a real pilot.
 - [ ] Update `limitations.md` and `threat-model.md` with anything the pilot
       revealed. No draft, for the same reason.
-- [ ] Participant-facing app walkthrough pages — blocked on `eventbadges-app`
-      existing (Day 5 of the program plan); see
+- [ ] Participant-facing app walkthrough pages — no longer blocked on
+      `eventbadges-app` existing (it does, as of 2026-10-03), but on it having
+      *run*: the screens exist and none has ever been exercised against a
+      wallet, so there is nothing yet to walk anyone through; see
       [draft 02](docs/issue-drafts/02-app-and-pilot-documentation.md).
 
 ## Decisions needed from Tim

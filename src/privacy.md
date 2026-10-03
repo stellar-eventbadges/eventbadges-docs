@@ -32,7 +32,8 @@ short version: **no names, no contact details, no identifiers of any person
    linkable across events by address. If an attendee's identity is ever
    connected to their wallet off-chain, every badge they claimed becomes
    attributable. Attendees who do not want that should use a fresh address
-   per event — that is advice the app should surface (Not implemented yet).
+   per event — the app exists but does not surface that advice yet (Not
+   implemented yet).
 2. **`name_hash` is reversible in practice.** Unlike the claim code, an
    event's name is chosen from a small space. This book deliberately calls
    the field "obscured" rather than "hashed-safe".

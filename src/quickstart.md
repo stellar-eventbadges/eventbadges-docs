@@ -1,7 +1,8 @@
 # Quickstart
 
-How to check out the real contract today. There is no app yet, so everything
-happens in the contract repository.
+How to check out the real contract and the real app UI today. **Nothing is
+deployed, and no flow has ever run against a real wallet** — so this page is
+about reading code and running checks, not about using the product end to end.
 
 ## Read the contract without running anything
 
@@ -27,6 +28,26 @@ stellar contract build           # builds the wasm (needs the Stellar CLI)
 Every command above passes as of 2026-10-03. The last one needs the
 [Stellar CLI](https://developers.stellar.org/docs/tools/cli/stellar-cli)
 (v28.1.0 was used) or you can stop before it.
+
+## Run the app's checks yourself
+
+The web app exists ([`eventbadges-app`](https://github.com/stellar-eventbadges/eventbadges-app))
+with all four v0 screens. It is **built, never run**: the checks below pass,
+and no wallet has ever connected to it. Node 24 (the version its CI uses),
+from a clone of `eventbadges-app`:
+
+```bash
+npm install                   # or npm ci, which is what CI runs
+npm run lint                  # oxlint
+npm run typecheck             # tsc -b (strict)
+npm test                      # 141 unit and render tests, incl. axe
+npm run build                 # production build
+```
+
+All four pass as of 2026-10-03. `npm run dev` also serves the UI, but it needs
+a contract id in `.env`, and there is no deployed contract to put there: until
+a pilot happens the app shows its configuration notice instead of a working
+screen. That is the intended behaviour, not a bug to report.
 
 ## Deploying
 

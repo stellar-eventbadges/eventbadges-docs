@@ -38,9 +38,18 @@ wrong](what-can-go-wrong.md#problems-no-error-code-will-save-you-from)).
 
 **Is this deployed? Can I try it?**
 No — nothing is deployed, and there is no pilot. You can build and test the
-contract yourself from the [contracts repo](quickstart.md). Deployment is
-gated on a real organizer agreeing to pilot it ([pilot
-playbook](pilot-playbook.md)).
+contract and the app yourself; the commands are in the
+[quickstart](quickstart.md). Deployment is gated on a real organizer agreeing
+to pilot it ([pilot playbook](pilot-playbook.md)).
+
+**There is an app. Why can't I use it?**
+It is written, and nobody has used it. All four v0 screens are built and pass
+their checks, but **no wallet has ever connected, signed or submitted through
+it**, and no contract call has ever reached a deployed contract — because none
+exists. The contract id in the app's configuration is still a placeholder, so
+the app shows a configuration notice instead of a working screen. Until a real
+pilot happens, "built" and "works" are two different things in this project,
+and the app is on the wrong side of that line.
 
 **Is this audited? Who reviewed it?**
 No audit and no second reviewer. The contract is one person's work, locally
@@ -53,7 +62,10 @@ have a small enough space that the hash is "obscured", not "secret"
 ([privacy](privacy.md)).
 
 **What comes next?**
-The web app (`eventbadges-app`, planned next), then docs-queryable pages for
-verifiers. The full list lives in the ROADMAPs of the three repos. Things
-the code does not do are marked **Not implemented yet** everywhere, never
-"coming soon" with dates.
+A real deployment and a real pilot — the app is written, but in this project
+"built" has not yet once meant "used". After that, docs-queryable pages for
+verifiers. The full list lives in the ROADMAPs of the three repos. Two status
+markers are used throughout, and they are not interchangeable:
+**Not implemented yet** (planned, no code) and **Built, never run** (written
+and checked, never executed against the real thing). Never "coming soon" with
+dates.

@@ -92,8 +92,11 @@ assert.
   possible; the cap and `AlreadyHeld` keep it orderly, but "who got the
   last badge" is not guaranteed fair.
 - **Wallet, key management and phishing** are out of the contract's reach.
-- **The (not yet built) app** gets its own model when it exists; nothing
-  here should be read as covering it.
+- **The app.** `eventbadges-app` now exists, and it is **built, never run**:
+  every contract call and every wallet interaction in it has never executed
+  against a real contract or a real wallet. Adversarial analysis of it would
+  be analysis of code that has never behaved, so none is offered. Nothing on
+  this page should be read as covering the app.
 - **Economic attacks** on testnet value are not a thing worth modeling —
   there is no value.
 - This model reviews code as of 2026-10-03 (commit

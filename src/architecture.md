@@ -21,8 +21,15 @@ nothing else — its only dependency is `soroban-sdk` (28.0.0 in
 |---|---|---|
 | `eventbadges` contract | On-chain, Soroban host | built, **not deployed** |
 | Organizer's / attendee's wallet | User's device; signs `require_auth`-guarded calls | any Soroban wallet |
-| `eventbadges-app` | Browser | Not implemented yet (planned) |
+| `eventbadges-app` | Browser | built, locally verified, **never run against a wallet** |
 | Indexer / explorer | Third party, reads events | none; the events exist for one |
+
+The app holds no state of its own: no backend, no database, no server of any
+kind. It re-reads contract state over RPC whenever a screen needs it, so there
+is nothing to keep in sync and nothing to migrate. Two rows in that table have
+never been executed: the contract, because it is not deployed, and the app,
+because no wallet has ever connected to it — see
+[limitations](limitations.md).
 
 The contract is self-contained: no admin entrypoint, no upgrade path, no
 external calls except reads of its own storage. A wallet signature is the
@@ -116,6 +123,9 @@ through their signature.
 ## Related documentation
 
 - [Privacy: what is on-chain](privacy.md) — the field-by-field data inventory.
+- [`eventbadges-app`](https://github.com/stellar-eventbadges/eventbadges-app)
+  — the browser UI; its README is the honest record of what has and has not
+  run.
 - [Known limitations](limitations.md) — what this design does not do.
 - [Threat model](threat-model.md) — who could attack what, and the mitigations.
 - `ERRORS.md` in the contracts repo — one row per failure, with the
