@@ -1,35 +1,88 @@
-# eventbadges — event badges on Stellar testnet
+# eventbadges — docs
 
-Status: **scaffold only.** No contract, no app, no book has been written yet.
-Testnet only, no real money, **no pilot has happened**, and this project has
-never run against a deployed contract. Do not use it with real funds.
+The documentation for `eventbadges`, written as an
+[mdBook](https://rust-lang.github.io/mdBook/). `eventbadges` is a
+Stellar/Soroban project for **non-transferable event attendance badges**: an
+organizer records an event, attendees claim a badge with a secret claim
+code, and nobody — including the organizer — can move a badge between
+addresses. **Testnet only. Nothing is deployed, and no pilot has happened.**
 
-eventbadges is a Stellar/Soroban project in three repositories:
+Part of the eventbadges project, which is three repositories:
+[`eventbadges-contracts`](https://github.com/stellar-eventbadges/eventbadges-contracts)
+(the Rust contract, built and locally verified),
+[`eventbadges-app`](https://github.com/stellar-eventbadges/eventbadges-app)
+(the web app, not built yet) and this one.
 
-| Repo | Purpose | Status |
-|---|---|---|
-| `eventbadges-contracts` | Soroban contract (Rust) | scaffold only |
-| `eventbadges-app` | web app (Vite + React + TypeScript) | scaffold only |
-| `eventbadges-docs` | mdBook documentation | scaffold only |
+## The book
 
+| Page | What it covers |
+|---|---|
+| [Introduction](src/introduction.md) | What the project is, in plain language, with the honest status |
+| [A worked example](src/worked-example.md) | The full life of an event, entrypoint by entrypoint |
+| [Quickstart](src/quickstart.md) | How to read and run the real checks yourself today |
+| [Product requirements](src/prd.md) | What the product is, from what the code does |
+| [Architecture](src/architecture.md) | The contract, point by point, from the real code |
+| [Privacy: what is on-chain](src/privacy.md) | The field-by-field data inventory, with the honest caveats |
+| [What can go wrong](src/what-can-go-wrong.md) | Every failure in plain language |
+| [Known limitations](src/limitations.md) | What is not proven and not handled |
+| [Threat model](src/threat-model.md) | A STRIDE walk-through, with honest out-of-scope rows |
+| [Pilot playbook](src/pilot-playbook.md) | How a pilot will be run, and the deployment gate |
+| [Pilots](src/pilots/README.md) | The record of real pilots (currently: none) |
+| [FAQ](src/faq.md) | Short answers to common questions |
+| [Glossary](src/glossary.md) | The terms, in plain words |
 
-## What is here now
+## Working on the book
 
-Repository governance only, adapted from the completed `schoolfees` project:
-[AGENTS.md](AGENTS.md) (the rulebook for agents and humans),
-[CONTRIBUTING.md](CONTRIBUTING.md), [ROADMAP.md](ROADMAP.md) (what v0 will be,
-from the project's playbook section), MIT [LICENSE](LICENSE), `.gitignore`,
-`.gitattributes` (LF everywhere). No code yet; the first CI workflow lands
-with the first code that can pass it.
+```bash
+node scripts/check-links.mjs   # every link and every SUMMARY entry resolves
+node --test                    # tests for the link checker
+```
 
-## What v0 will be
+CI runs both of those, then installs mdBook and runs `mdbook build`
+(`.github/workflows/docs.yml`). mdBook is deliberately **not** installed on
+the maintainer's machine, so the book build is verified in CI only.
 
-See [ROADMAP.md](ROADMAP.md). The scope is defined in the project's section of
-the build playbook; it is not invented here.
+To preview the book locally you need mdBook:
 
-## Honest limitations
+```bash
+cargo install mdbook
+mdbook serve --open
+```
 
-- Nothing is implemented, tested, audited or deployed.
-- The contract has never been compiled; the app has never run; the book has
-  never been built.
-- No pilot has happened and none is claimed anywhere in these repositories.
+## Layout
+
+```text
+├── book.toml                 # mdBook configuration
+├── src/
+│   ├── SUMMARY.md            # table of contents
+│   ├── introduction.md … glossary.md   # the pages in the table above
+│   └── pilots/               # one real pilot per file; a placeholder until then
+├── scripts/
+│   ├── check-links.mjs       # link + SUMMARY checker (no dependencies)
+│   └── check-links.test.mjs  # its tests
+├── docs/issue-drafts/        # drafts for contributors (never created on GitHub for you)
+├── AGENTS.md                 # rules for AI agents working in this repo
+└── ROADMAP.md                # what is next, and what is deliberately not built
+```
+
+## Rules this book follows
+
+The full set is in [AGENTS.md](AGENTS.md). The short version:
+
+- Describe only what the code does. Anything not built is marked as such.
+- Every technical claim points at a real file, function, test or command in
+  `eventbadges-contracts` (or will point at `eventbadges-app` once that
+  exists). Where the book and the code disagree, the code wins.
+- Never invent addresses, transaction hashes, testers, events or outcomes.
+  No pilot is recorded until it really happens.
+- Never include personal data, even in examples — placeholders only.
+- Never soften the pilot-evidence boundary or the production boundary.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). The plan for what comes next is in
+[ROADMAP.md](ROADMAP.md).
+
+## License
+
+MIT — see [LICENSE](LICENSE).
