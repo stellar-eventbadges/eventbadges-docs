@@ -117,7 +117,7 @@ through their signature.
 | `0 ≤ claim_count ≤ max_claims` and `max_claims ≤ 10_000` | `count_after_issue` checked arithmetic; `error_path_max_claims_too_large`, `error_path_cap_reached` |
 | Ids are sequential and never reused (revocation frees the *slot*, not the id) | counter in instance storage; `create_event_records_the_event` |
 | Every error variant is reachable and documented | `src/error_paths.rs` (one test per variant) + `scripts/check-errors.mjs` in CI |
-| Event layouts on the chain match `docs/events.md` | exact topic/data assertions in `lifecycle_publishes_documented_events`, `award_publishes_the_documented_event` |
+| Event layouts on the chain match `docs/events.md` | exact topic/data assertions in `lifecycle_publishes_documented_events`, `award_publishes_the_documented_event`, and `scripts/check-events.mjs`, which compares every topic and data field against `src/types.rs` in CI |
 | Records survive past `closes_at` | TTL tests: `create_event_extends_the_instance_ttl`, `claim_extends_the_badge_ttl`, and the deadline-horizon test |
 
 ## Related documentation

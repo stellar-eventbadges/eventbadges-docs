@@ -19,13 +19,14 @@ clone of `eventbadges-contracts`:
 ```bash
 cargo fmt --all --check          # formatting
 cargo clippy --all-targets -- -D warnings   # lints, warnings are errors
-cargo test                       # 24 tests: error paths + lifecycle/auth/TTL
-node --test                      # tests for the error-table checker
+cargo test                       # 25 tests: error paths + lifecycle/auth/TTL
+node --test                      # tests for the two sync checkers
 node scripts/check-errors.mjs    # ERRORS.md matches enum Error exactly
+node scripts/check-events.mjs    # docs/events.md matches the event structs
 stellar contract build           # builds the wasm (needs the Stellar CLI)
 ```
 
-Every command above passes as of 2026-10-03. The last one needs the
+Every command above passes as of 2026-10-04. The last one needs the
 [Stellar CLI](https://developers.stellar.org/docs/tools/cli/stellar-cli)
 (v28.1.0 was used) or you can stop before it.
 
