@@ -53,6 +53,10 @@ screen. That is the intended behaviour, not a bug to report.
 
 **You cannot deploy from this book, and that is deliberate.** Deployment is
 gated on a real organizer agreeing to try the flow (see the [pilot
-playbook](pilot-playbook.md)). When that gate opens, the human maintainer
-runs `eventbadges-contracts/scripts/deploy-testnet.sh` themselves. Until a
-real deployment happens, no contract id exists and none may be invented.
+playbook](pilot-playbook.md)). When that gate opens, the human maintainer runs
+the app repo's `scripts/deploy-testnet.sh` themselves — it refuses to start
+unless `PILOT_CONFIRMED=yes` is set, builds the wasm if it is missing, and
+prints the contract id that goes into the app's `.env`. The contracts repo has
+its own `scripts/deploy-testnet.sh`, which deploys from inside that repo and
+enforces the same gate. Until a real deployment happens, no contract id exists
+and none may be invented.
