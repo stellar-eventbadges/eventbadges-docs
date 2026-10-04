@@ -61,7 +61,12 @@ and counters ([privacy](privacy.md)). The two real exposures are stated
 there: `name_hash` is brute-forceable for human-chosen names, and attendance
 histories are linkable by address. The claim code itself is safe iff it is
 random and long — a weak human-chosen "code" is brute-forceable exactly like
-the name.
+the name. The code's **hash** is not safe in that sense and never was: the
+contract stores it and `get_event` hands it out, so anyone who reads the chain
+can take one of the remaining places by claiming to their own address, no code
+required. That is the open "sharing" defect the roadmap's per-attendee Merkle
+item is for: presenting the hash rather than the code removed the raw secret
+from the transaction, and it did nothing about this.
 
 **Denial of service** — can one user block others?
 - Event-level: filling `max_claims` is possible (it is the cap working);

@@ -11,7 +11,7 @@ in the contracts repo. Each row below links the error's code and variant.
 | What you see | What it means | What to do |
 |---|---|---|
 | "We couldn't find that event." (`EventNotFound`, 1) | The event id is wrong, or the event was never created. | Check the id with the organizer. |
-| "That claim code is not valid for this event." (`ClaimCodeMismatch`, 11) | The code does not hash to the event's stored value — a typo, or the wrong event's code. | Check the code character by character with the organizer; codes are long on purpose. |
+| "That claim code is not valid for this event." (`ClaimCodeMismatch`, 11) | The code's SHA-256 does not match the event's stored value — a typo, or the wrong event's code. | Check the code character by character with the organizer; codes are long on purpose. |
 | "This address already holds a badge for this event." (`AlreadyHeld`, 13) | This wallet claimed (or was awarded) already. | Nothing to do — open the existing badge. |
 | "This event has no badges left to issue." (`CapReached`, 12) | Every slot the organizer set is taken. | Ask whether another run is planned. |
 | "The claim window for this event has closed." (`EventClosed`, 10) | The deadline passed. Claims cannot reopen. | Ask the organizer whether another proof of attendance exists. |

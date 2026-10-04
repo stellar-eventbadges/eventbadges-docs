@@ -11,8 +11,10 @@ Ada runs a monthly robotics meetup. Before the event she:
 1. Picks a random **claim code** — a long secret string — and keeps it
    offline. She never types it into the contract. (How codes are generated
    and shared: [the claim-codes doc](https://github.com/stellar-eventbadges/eventbadges-contracts/blob/main/docs/claim-codes.md).)
-2. Computes the SHA-256 hash of that code. Only the hash goes on-chain, so
-   the chain never holds the secret itself.
+2. Computes the SHA-256 hash of that code. Only the hash goes on-chain — and
+   only the hash ever enters a transaction, because claimants present the hash
+   too (see step 2 below), so the chain *and* its history hold nothing an
+   attacker could turn back into the code.
 3. Calls the contract:
 
 ```
@@ -33,10 +35,11 @@ creating events in Ada's name.
 
 Ben attended the meetup. Ada gave him the claim code in person (a printout,
 a QR code on the door — out-of-band, never on-chain). Ben opens any Soroban
-wallet — or the app's claim screen — and calls:
+wallet — or the app's claim screen, which hashes the code on his own device
+before building the transaction — and calls:
 
 ```
-claim(event_id: 1, attendee: Ben's wallet address, claim_code: <the secret>)
+claim(event_id: 1, attendee: Ben's wallet address, claim_code_hash: <SHA-256 of the secret>)
 ```
 
 The contract checks, in order:
@@ -45,9 +48,16 @@ The contract checks, in order:
 - the cap (100 badges) is not reached;
 - the deadline has not passed;
 - Ben does not already hold a badge for this event;
-- SHA-256 of the code Ben presented matches the stored hash.
+- the hash Ben presented matches the stored hash, byte for byte.
 
 All five pass → Ben's address is recorded as a badge holder for event 1.
+
+The stored hash is public: anyone can read it off the event with `get_event`,
+with no wallet and no permission. That is why presenting it in the transaction
+leaks nothing new — but it is also why the code is not a secret Ben can rely
+on to prove it was him. Anyone holding the hash (or the code) can claim one of
+the remaining places, to their own address, until the cap fills or the window
+closes.
 The badge is **not a token in his wallet** — it is a record *inside the
 contract* that says address B attended event 1. There is no transfer
 function anywhere in the contract, so the badge cannot leave Ben's address.
