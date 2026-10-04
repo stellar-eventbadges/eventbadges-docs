@@ -8,22 +8,23 @@ real event, person or address is involved.
 
 Ada runs a monthly robotics meetup. Before the event she:
 
-1. Picks a random **claim code** — a long secret string — and keeps it
-   offline. She never types it into the contract. (How codes are generated
-   and shared: [the claim-codes doc](https://github.com/stellar-eventbadges/eventbadges-contracts/blob/main/docs/claim-codes.md).)
-2. Computes the SHA-256 hash of that code. Only the hash goes on-chain — and
-   only the hash ever enters a transaction, because claimants present the hash
-   too (see step 2 below), so the chain *and* its history hold nothing an
-   attacker could turn back into the code.
+1. Generates one random **claim code per attendee** — long secret strings —
+   and keeps them offline. She never types them into the contract. (How codes
+   and their tree are produced: [the claim-codes doc](https://github.com/stellar-eventbadges/eventbadges-contracts/blob/main/docs/claim-codes.md).)
+2. Hashes each code locally and builds a **Merkle tree** over the leaves, so
+   each attendee's code can be proven without being revealed. She keeps the
+   tree (or the codes) offline. Only the tree's **root** goes on-chain; the
+   pieces a claim carries later — one leaf and its sibling hashes — give
+   nobody the code behind them.
 3. Calls the contract:
 
 ```
 create_event(
-    organizer:      Ada's wallet address,
-    name_hash:      SHA-256 of "robotics meetup" (opaque bytes on-chain),
-    claim_code_hash: the hash from step 2,
-    max_claims:     100,
-    closes_at:      a deadline one week after the event,
+    organizer:       Ada's wallet address,
+    name_hash:       SHA-256 of "robotics meetup" (opaque bytes on-chain),
+    claim_root:      the Merkle root from step 2,
+    max_claims:      100,
+    closes_at:       a deadline one week after the event,
 )
 ```
 
@@ -39,7 +40,7 @@ wallet — or the app's claim screen, which hashes the code on his own device
 before building the transaction — and calls:
 
 ```
-claim(event_id: 1, attendee: Ben's wallet address, claim_code_hash: <SHA-256 of the secret>)
+claim(event_id: 1, attendee: Ben's wallet address, leaf_hash: <SHA-256 of Ben's code>, proof: <siblings between that leaf and the root>)
 ```
 
 The contract checks, in order:
@@ -48,16 +49,19 @@ The contract checks, in order:
 - the cap (100 badges) is not reached;
 - the deadline has not passed;
 - Ben does not already hold a badge for this event;
-- the hash Ben presented matches the stored hash, byte for byte.
+- Ben's leaf and proof fold into the stored root, byte for byte;
+- that leaf has not been spent by an earlier claim.
 
-All five pass → Ben's address is recorded as a badge holder for event 1.
+All pass → Ben's address is recorded as a badge holder for event 1.
 
-The stored hash is public: anyone can read it off the event with `get_event`,
-with no wallet and no permission. That is why presenting it in the transaction
-leaks nothing new — but it is also why the code is not a secret Ben can rely
-on to prove it was him. Anyone holding the hash (or the code) can claim one of
-the remaining places, to their own address, until the cap fills or the window
-closes.
+The event stores a Merkle **root**, which anyone can read off the event with
+`get_event` — with no wallet and no permission. That root is harmless: Ben's
+leaf cannot be derived from it, and the contract accepts nothing that does not
+fold into it. Ben's leaf is spent when he claims, so his code can take exactly
+one place. If someone else had his code first, they would take that place and
+Ben's claim would fail (`ClaimCodeUsed`); the organizer can revoke the badge
+that used it and award Ben one directly.
+
 The badge is **not a token in his wallet** — it is a record *inside the
 contract* that says address B attended event 1. There is no transfer
 function anywhere in the contract, so the badge cannot leave Ben's address.
@@ -95,9 +99,17 @@ claim window without anyone paying to store them forever.
 
 ## What this example skips
 
+- **Ada cannot build her 100-code tree in the app yet.** The app's create
+  screen generates one code and commits it as a one-leaf tree, so an event
+  created in the app can be claimed by exactly one attendee; handing out one
+  code and one proof per attendee is drafted (`eventbadges-app`,
+  `docs/issue-drafts/12-per-attendee-claim-tickets.md`), not built. Ada's tree
+  above follows the claim-codes doc by hand; nothing in the repositories
+  builds it for her yet.
 - **Nobody has been through these steps.** The app has a screen for each of
   them (`eventbadges-app`: home, organizer, claim, verify) and they call
-  exactly the entrypoints above — but it is **built, never run**. No wallet has
+  exactly the entrypoints above — for a one-attendee event — but it is
+  **built, never run**. No wallet has
   connected, signed or submitted through it, and no contract is deployed, so
   not one of the calls above has ever executed. Read the screens as written
   and unexercised, not as a transcript of something that happened.

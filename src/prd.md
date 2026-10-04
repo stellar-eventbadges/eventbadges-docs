@@ -26,12 +26,12 @@ proves nothing about who earned it.
 | # | Requirement | Where it lives |
 |---|---|---|
 | 1 | An organizer can record an event with a cap (1–10,000 badges) and a claim deadline in the future. | `create_event`, `src/badges.rs`; validation errors `MaxClaimsTooLarge`, `ClosesAtInPast` |
-| 2 | An attendee can claim a badge by presenting a secret whose SHA-256 matches the event's stored hash — one badge per attendee per event. | `claim`, `src/badges.rs`; errors `ClaimCodeMismatch`, `AlreadyHeld` |
+| 2 | An attendee can claim a badge by proving their code is one of the event's committed leaves — one badge per attendee per event, and one place per code. | `claim`, `src/badges.rs`; errors `ClaimProofInvalid`, `ClaimCodeUsed`, `AlreadyHeld` |
 | 3 | The organizer can award a badge directly, under the same cap, window and one-per-attendee rules. | `award`, `src/badges.rs` |
 | 4 | The organizer can revoke a badge at any time, including after the window closes. | `revoke`, `src/badges.rs`; test `claim_after_the_deadline_fails_but_revoke_still_works` |
 | 5 | Anyone can read event records, badge existence, and an attendee's badges. | `get_event`, `has_badge`, `badges_of`, `src/badges.rs` |
 | 6 | Badges cannot be transferred, approved or delegated — no such entrypoint exists. | absence enforced by design; see the contracts repo's `docs/decisions/0001-nft-approach.md` |
-| 7 | Every failure has a documented, machine-checked error code with user-facing wording. | `ERRORS.md` + `scripts/check-errors.mjs` in the contracts repo (8 variants checked in CI) |
+| 7 | Every failure has a documented, machine-checked error code with user-facing wording. | `ERRORS.md` + `scripts/check-errors.mjs` in the contracts repo (9 variants checked in CI) |
 | 8 | State changes announce themselves with documented events. | `docs/events.md` in the contracts repo; layouts asserted in `src/test.rs` |
 | 9 | Records stay readable past the deadline without manual babysitting. | TTL from `closes_at` + 30-day margin, 7-day floor, `src/storage.rs`; tests `create_event_extends_the_*_ttl` |
 | 10 | No personal data on-chain — hashes and opaque values only. | [Privacy](privacy.md); types in `src/types.rs` |
@@ -53,7 +53,12 @@ there is no other path from the app to the chain, and no backend of any kind.
 | 17 | Nothing leaves the browser except the RPC call: no backend, no analytics, no third-party scripts. | by construction; stated in the app repository's README |
 
 **Every one of those rows is "built, never run."** What passes is unit, render,
-accessibility, lint, type-check and build. What has never happened is the part
+accessibility, lint, type-check and build. One scope limit worth naming: the
+organizer screen generates a single code and commits it as a one-leaf tree, so
+an app-created event can be claimed by exactly one attendee. The contract
+itself supports one leaf per attendee; building multi-attendee trees and
+handing out per-attendee tickets is drafted in the app repository's issue 12,
+not built. What has never happened is the part
 that matters to a person: no wallet has connected or signed, and no contract
 call has reached a deployed contract, because none exists. The app repository
 says so itself, under "What is proven vs assumed".
@@ -62,8 +67,8 @@ says so itself, under "What is proven vs assumed".
 
 - Everything under "Deliberately unimplemented" in the contracts
   [ROADMAP](https://github.com/stellar-eventbadges/eventbadges-contracts/blob/main/ROADMAP.md):
-  per-attendee Merkle claim codes, badge metadata, batch awarding, event
-  series, pagination.
+  address-bound claim leaves, badge metadata, batch awarding, event series,
+  pagination.
 - Everything in the app repository's `docs/issue-drafts/`, including the
   per-event fresh-address advice that [privacy](privacy.md) recommends.
 - Any deployment. There is no testnet instance; there is no pilot; there is no

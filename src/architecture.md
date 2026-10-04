@@ -46,7 +46,7 @@ All types live in `src/types.rs`.
 | `id` | Sequential id starting at 1 | `NextEventId` counter in instance storage |
 | `organizer` | Controls the event's badges | set at creation, immutable |
 | `name_hash` | SHA-256 of the event name | opaque bytes; never a plain name |
-| `claim_code_hash` | SHA-256 of the secret claim code | checked on every claim; never published in events |
+| `claim_root` | Merkle root over one `SHA-256(code)` leaf per attendee (`docs/claim-codes.md` in the contracts repo) | every claim verifies a proof against it; the root itself is never published in events |
 | `max_claims` | Badge cap | 1–10,000 (`MAX_CLAIMS_PER_EVENT` in `src/badges.rs`) |
 | `closes_at` | Claim deadline (Unix seconds) | must be in the future at creation |
 | `claim_count` | Badges issued so far | incremented by `claim`/`award`, decremented by `revoke` with `saturating_sub` |
@@ -64,16 +64,16 @@ from the clock, and "full" from the counters. The badge flow:
 
 ```
 create_event ──▶ event open (before closes_at, claim_count < max_claims)
-                    │ claim(attendee, code)      ◀─ attendee's signature
+                    │ claim(attendee, leaf, proof) ◀─ attendee's signature
                     │ award(attendee)            ◀─ organizer's signature
                     ▼
                 badge held ──▶ revoke (organizer, any time) ──▶ slot freed
 ```
 
 - `claim` checks, in order: attendee's auth → event exists → cap → deadline
-  → not already held → code hash matches. Any failure aborts the whole call
-  with a typed error from `enum Error` (ranges: 1–9 lookup, 10–29 lifecycle,
-  30–49 validation).
+  → not already held → the leaf and proof fold into `claim_root` → the leaf is
+  not already spent. Any failure aborts the whole call with a typed error from
+  `enum Error` (ranges: 1–9 lookup, 10–29 lifecycle, 30–49 validation).
 - `award` is the same flow minus the code, gated on the organizer's
   signature instead.
 - `revoke` removes the badge and the attendee's list entry, decrements
@@ -84,7 +84,7 @@ create_event ──▶ event open (before closes_at, claim_count < max_claims)
 
 **`src/lib.rs`** — entrypoints only; `#[contractimpl]` delegation to
 `src/badges.rs`. No logic. **`src/badges.rs`** — all validation, storage
-rules, hash checks, event publication. **`src/storage.rs`** — the `DataKey`
+rules, hash and Merkle checks, event publication. **`src/storage.rs`** — the `DataKey`
 enum, TTL constants and `extend_*` helpers. **`src/types.rs`** — `enum
 Error`, the `#[contracttype]` records, the four `#[contractevent]` types.
 **`src/error_paths.rs`** — exactly one test per error variant, triggering the
@@ -99,12 +99,13 @@ through their signature.
   `revoke` — only the recorded organizer can act on their event (tests
   `*_requires_the_organizer_signature`).
 - **Attendee ↔ contract:** `claim` requires the attendee's own signature, so
-  nobody can claim *for* an address, and the code proves the attendee was
-  told the secret in person (test: `claim_requires_the_attendee_signature`).
+  nobody can claim *for* an address, and the leaf proves the attendee was told
+  a secret the organizer committed into the event's root (test:
+  `claim_requires_the_attendee_signature`).
 - **Verifier ↔ contract:** read functions need no signature; the contract is
   the source of truth. The verifier must still trust that the *off-chain*
-  claim code reached only genuine attendees — the chain proves the hash
-  matched, not who was in the room.
+  claim code reached only genuine attendees — the chain proves a committed
+  leaf was presented and unspent, not who was in the room.
 - **Contract ↔ chain:** everything is public. The hash of an event's name is
   low-entropy — see [privacy](privacy.md) for what that means.
 
@@ -114,6 +115,7 @@ through their signature.
 |---|---|
 | A badge exists only under a key `(event_id, attendee)` and no code path can move or copy it | no transfer/approve/operator function exists (`docs/decisions/0001-nft-approach.md`) |
 | At most one badge per (event, attendee) | `AlreadyHeld` check in `claim`/`award`; `error_path_already_held` |
+| A committed leaf is spent by its first successful claim and by no other event | spent-leaf record written before issuance; `a_leaf_can_take_only_one_place`, `error_path_claim_code_used` |
 | `0 ≤ claim_count ≤ max_claims` and `max_claims ≤ 10_000` | `count_after_issue` checked arithmetic; `error_path_max_claims_too_large`, `error_path_cap_reached` |
 | Ids are sequential and never reused (revocation frees the *slot*, not the id) | counter in instance storage; `create_event_records_the_event` |
 | Every error variant is reachable and documented | `src/error_paths.rs` (one test per variant) + `scripts/check-errors.mjs` in CI |

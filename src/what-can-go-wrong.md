@@ -11,7 +11,8 @@ in the contracts repo. Each row below links the error's code and variant.
 | What you see | What it means | What to do |
 |---|---|---|
 | "We couldn't find that event." (`EventNotFound`, 1) | The event id is wrong, or the event was never created. | Check the id with the organizer. |
-| "That claim code is not valid for this event." (`ClaimCodeMismatch`, 11) | The code's SHA-256 does not match the event's stored value — a typo, or the wrong event's code. | Check the code character by character with the organizer; codes are long on purpose. |
+| "That claim code is not valid for this event." (`ClaimProofInvalid`, 14) | The code's leaf and proof do not fold into the event's stored root — a typo, the wrong event's code, or an incomplete proof. | Check the code and the proof with the organizer; each attendee has their own code. |
+| "That claim code has already been used." (`ClaimCodeUsed`, 15) | The leaf this code produces was already spent by a successful claim — most likely someone else used the code first. | Ask the organizer to revoke the badge that used it and award one instead. |
 | "This address already holds a badge for this event." (`AlreadyHeld`, 13) | This wallet claimed (or was awarded) already. | Nothing to do — open the existing badge. |
 | "This event has no badges left to issue." (`CapReached`, 12) | Every slot the organizer set is taken. | Ask whether another run is planned. |
 | "The claim window for this event has closed." (`EventClosed`, 10) | The deadline passed. Claims cannot reopen. | Ask the organizer whether another proof of attendance exists. |
@@ -26,13 +27,15 @@ in the contracts repo. Each row below links the error's code and variant.
 
 ## Problems no error code will save you from
 
-- **You lost the claim code.** The hash is on-chain; the secret is not
-  recoverable from it. Attendees who were not told the code can still be
-  served with `award` — that is what it exists for.
-- **The code leaked before the event.** Anyone with it can claim while the
-  window is open and the cap allows. The contract cannot rotate the hash.
-  Mitigation is procedural: short window, tight cap, share out-of-band, and
-  `revoke` abusive badges (the count frees up again).
+- **You lost the claim code.** The event stores a Merkle root; the secret is
+  not recoverable from it. Attendees who lost a code can be served with
+  `award` — that is what it exists for.
+- **The code leaked before the event.** Anyone with it can take the one place
+  that code was for, if they get there before its owner — each code is
+  single-use, so no other place is at risk, but the contract cannot tell who
+  the code was meant for. Mitigation is procedural: share out-of-band, keep
+  the window short, and `revoke` the badge that used the code so the slot
+  frees up for `award` to the shut-out attendee.
 - **The attendee's wallet was compromised.** A badge follows the address,
   and the contract cannot know who *should* hold it. `revoke` removes the
   badge; the `badge_claimed` event stays on-chain (see

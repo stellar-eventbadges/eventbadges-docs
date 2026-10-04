@@ -19,10 +19,10 @@ This book has two audiences:
 ## Where the project stands (honest status)
 
 - The contract (`eventbadges-contracts`) is **built and locally verified**:
-  24 tests pass, the error table is machine-checked against the code, and the
+  34 tests pass, the error table is machine-checked against the code, and the
   wasm builds with Stellar CLI 28.1.0. Its CI is green on GitHub.
 - The app (`eventbadges-app`) is **built and locally verified**: four screens
-  (home, organizer, claim, verify), 141 unit and render tests including an
+  (home, organizer, claim, verify), 165 unit and render tests including an
   automated accessibility check on every screen and state, plus lint, strict
   type-check and a production build, all green. Its CI workflow is written but
   has never run on GitHub, so that one is unproven.
@@ -50,8 +50,9 @@ status markers that mean different things:
 A community organizer wants to prove who attended a meetup or workshop.
 Today that is a paper list or a spreadsheet nobody can check. With
 `eventbadges`, the organizer records the event on the Stellar testnet with a
-cap and a claim deadline, and hands each attendee a secret claim code
-out-of-band. An attendee proves the code to the contract and receives a badge
+cap and a claim deadline, and hands each attendee their own secret claim code
+out-of-band. An attendee proves that their code is one the organizer committed
+— the code stays on their device; only hashes travel — and receives a badge
 bound to their own wallet address. The badge can be verified by anyone,
 forever, and it can never be traded away — which is the point: it attests
 that *this address* was *at this event*, and an attestation that can be sold

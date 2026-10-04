@@ -15,8 +15,8 @@ project.
 ## What is not enforced on-chain
 
 - **That attendees are who the organizer thinks they are.** The contract
-  checks a code against a hash; it cannot know the code was given only to
-  people actually in the room.
+  checks a Merkle proof against the event's root; it cannot know the code was
+  given only to people actually in the room.
 - **That an event is real.** Anyone with a wallet can create an event with
   any name hash. There is no verification of organizers, no registry, no
   identity layer.
@@ -35,11 +35,16 @@ Real gaps from the contracts
 and the app repository's `docs/issue-drafts/`, stated as risks rather than
 hidden:
 
-- **A leaked claim code cannot be rotated.** The hash is fixed at creation;
-  the only responses are procedural (short window, tight cap, revoke).
-- **Claiming is one code for everyone.** There are no per-attendee codes
-  (Merkle approach drafted, not built), so any holder of *the* code can
-  claim until slots run out.
+- **A leaked claim code cannot be rotated.** The root is fixed at creation
+  and the code is not recoverable from it; a leaked code is usable *first* for
+  the one place it was for. The responses are procedural: keep the event's
+  claim window short, then revoke the badge that used the code and `award` the
+  shut-out attendee one.
+- **The app still builds one-claim events.** Its create screen generates a
+  single code and commits its leaf as a one-leaf tree, so an app-created event
+  can be claimed by exactly one attendee. The contract supports one leaf per
+  attendee; the app's tree building and ticket hand-out are drafted
+  (`docs/issue-drafts/12-per-attendee-claim-tickets.md`), not built.
 - **No listing of an event's attendees.** `badges_of` is per-attendee and
   capped at one; there is no way to enumerate holders of an event's badges
   on-chain. An indexer reading `badge_claimed` events is the workaround.

@@ -19,7 +19,7 @@ clone of `eventbadges-contracts`:
 ```bash
 cargo fmt --all --check          # formatting
 cargo clippy --all-targets -- -D warnings   # lints, warnings are errors
-cargo test                       # 25 tests: error paths + lifecycle/auth/TTL
+cargo test                       # 34 tests: error paths + lifecycle/auth/Merkle
 node --test                      # tests for the two sync checkers
 node scripts/check-errors.mjs    # ERRORS.md matches enum Error exactly
 node scripts/check-events.mjs    # docs/events.md matches the event structs
@@ -41,11 +41,11 @@ from a clone of `eventbadges-app`:
 npm install                   # or npm ci, which is what CI runs
 npm run lint                  # oxlint
 npm run typecheck             # tsc -b (strict)
-npm test                      # 141 unit and render tests, incl. axe
+npm test                      # 165 unit and render tests, incl. axe
 npm run build                 # production build
 ```
 
-All four pass as of 2026-10-03. `npm run dev` also serves the UI, but it needs
+All four pass as of 2026-10-04. `npm run dev` also serves the UI, but it needs
 a contract id in `.env`, and there is no deployed contract to put there: until
 a pilot happens the app shows its configuration notice instead of a working
 screen. That is the intended behaviour, not a bug to report.

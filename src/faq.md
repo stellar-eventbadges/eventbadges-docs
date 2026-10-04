@@ -34,9 +34,13 @@ the removal event stays on-chain
 ([threat model](threat-model.md#stride), Repudiation row).
 
 **What if the claim code leaks?**
-Whoever has it can claim, until the cap or the deadline stops them. The hash
-cannot be changed; the organizer's options are short windows, tight caps,
-and revoking fraudulent badges ([what can go
+Each attendee has their own code, and a successful claim spends it, so a
+leaked code can take **one** place — its owner's — and only if the holder gets
+there first. A second use of the same code fails (`ClaimCodeUsed`). The
+stored root cannot be turned back into any code, and it cannot be changed
+after creation; the remedy for a stolen place is procedural: the organizer
+revokes the badge that used the code and awards one to the attendee who was
+shut out ([what can go
 wrong](what-can-go-wrong.md#problems-no-error-code-will-save-you-from)).
 
 **Is this deployed? Can I try it?**
@@ -56,7 +60,7 @@ and the app is on the wrong side of that line.
 
 **Is this audited? Who reviewed it?**
 No audit and no second reviewer. The contract is one person's work, locally
-verified (24 tests, strict lints) and honestly limited
+verified (34 tests, strict lints) and honestly limited
 ([limitations](limitations.md)). Testnet only, and treat it accordingly.
 
 **Why hashes instead of the event name?**

@@ -10,8 +10,8 @@ identifies the key, not the person.
 address attended this event at this time". Not a token; it cannot move.
 
 **Claim code** — a random secret string the organizer generates and shares
-out-of-band. Proves attendance when its SHA-256 matches the event's stored
-hash. Only the hash touches the chain.
+out-of-band, one per attendee. Proves attendance when its SHA-256 leaf is
+shown to be one of the event's committed codes. Only hashes touch the chain.
 
 **Contract** — the deployed program on Soroban (`eventbadges`). Holds the
 rules and the records; holds no funds.
@@ -33,6 +33,11 @@ output; infeasible to reverse *if the input was random and long*.
 seconds. Timestamps and TTLs are measured against it.
 
 **mdBook** — the tool that builds this book from `src/*.md`.
+
+**Merkle tree** — commits many secrets with one 32-byte value: each code
+becomes a *leaf*, leaf hashes are combined pairwise into a *root*, and a
+claim carries one leaf plus its *proof* (the sibling hashes up to the root).
+The root is public; no code can be recovered from it.
 
 **Persistent entry** — a piece of contract storage that survives between
 calls until its TTL (below) lapses. Each event, badge and attendee-list

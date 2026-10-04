@@ -61,12 +61,18 @@ and counters ([privacy](privacy.md)). The two real exposures are stated
 there: `name_hash` is brute-forceable for human-chosen names, and attendance
 histories are linkable by address. The claim code itself is safe iff it is
 random and long — a weak human-chosen "code" is brute-forceable exactly like
-the name. The code's **hash** is not safe in that sense and never was: the
-contract stores it and `get_event` hands it out, so anyone who reads the chain
-can take one of the remaining places by claiming to their own address, no code
-required. That is the open "sharing" defect the roadmap's per-attendee Merkle
-item is for: presenting the hash rather than the code removed the raw secret
-from the transaction, and it did nothing about this.
+the name.
+
+The stored commitment changed on 2026-10-04, and the old sharing defect went
+with it. The event now stores a Merkle **root** over one `SHA-256(code)` leaf
+per attendee
+([ADR 0003](https://github.com/stellar-eventbadges/eventbadges-contracts/blob/main/docs/decisions/0003-per-attendee-claim-codes.md)),
+and nothing is derivable from a root: reading the event no longer hands anyone
+the means to claim. A claim transaction carries one leaf, which the contract
+marks spent on success, so a code is good for exactly one place. The honest
+limit that remains: a leaked code is usable *first* — the contract cannot tell
+which attendee a leaf was meant for. Revoking the badge that used it and
+awarding one is the remedy, and that is procedural, not cryptographic.
 
 **Denial of service** — can one user block others?
 - Event-level: filling `max_claims` is possible (it is the cap working);

@@ -13,17 +13,16 @@ short version: **no names, no contact details, no identifiers of any person
 |---|---|---|
 | Wallet addresses (organizer, attendees) | storage keys and signature checks | pseudonymous: identifies the *key*, not the person — but anyone who links an address to a person (off-chain leak, explorer analytics) sees that person's full attendance history |
 | `name_hash` (SHA-256 of an event's name) | lets the organizer recognize their own event without storing the name | low-entropy: human event names have few possibilities, so this hash **can be brute-forced**. Treat it as "obscured", not "secret". Choose names you are comfortable publishing |
-| `claim_code_hash` (SHA-256 of the claim code) | the thing `claim` checks — and, since ADR 0002 in the contracts repo, the only part of the code that a claim transaction carries | public, like everything else here: `get_event` returns it to anyone, so it is a **bearer credential** for one place while the event's window is open. The code itself is safe while it stays random and long (128+ bits of entropy); generated per `docs/claim-codes.md` in the contracts repo and shared out-of-band only |
+| `claim_root` (Merkle root over one `SHA-256(code)` leaf per attendee) | the commitment a claim verifies its proof against; since [ADR 0003](https://github.com/stellar-eventbadges/eventbadges-contracts/blob/main/docs/decisions/0003-per-attendee-claim-codes.md), the only claim-related value the event stores | public, like everything else here, and harmless: leaves are **not** derivable from a root, so it is not a bearer credential. One attendee's leaf travels in the claim transaction and is spent by the first successful claim, so a code is good for one place. Codes stay random and long (128+ bits of entropy), generated per `docs/claim-codes.md` in the contracts repo and shared out-of-band only |
 | `max_claims`, `closes_at`, `claim_count`, `issued_at` | the event's rules and state | attendance statistics are public per event |
-| Events (`event_created`, `badge_claimed`, `badge_awarded`, `badge_revoked`) | the public audit trail | topics carry the event id and the attendee address, so attendance is indexable by anyone, and the three badge events repeat the organizer address in their data. `event_created`'s data map also republishes `name_hash` — the brute-forceable value from the `name_hash` row above, in a second place an indexer can read — along with `max_claims` and `closes_at`. `claim_code_hash` is deliberately **not** in the event data: see `docs/events.md` in the contracts repo, asserted field by field in `lifecycle_publishes_documented_events` |
+| Events (`event_created`, `badge_claimed`, `badge_awarded`, `badge_revoked`) | the public audit trail | topics carry the event id and the attendee address, so attendance is indexable by anyone, and the three badge events repeat the organizer address in their data. `event_created`'s data map also republishes `name_hash` — the brute-forceable value from the `name_hash` row above, in a second place an indexer can read — along with `max_claims` and `closes_at`. `claim_root` is deliberately **not** in the event data: see `docs/events.md` in the contracts repo, asserted field by field in `lifecycle_publishes_documented_events` |
 
 ## What the chain never holds
 
 - Names, usernames, phone numbers, emails, or any contact detail.
-- Claim codes themselves — only their hashes; a random code's hash is not
-  reversible, and the hash is all a `claim` transaction carries (the app
-  hashes the code on the attendee's device), so the code is in neither the
-  ledger nor its transaction history.
+- Claim codes themselves — only hashes: the event stores a Merkle root, a
+  claim transaction carries one attendee's leaf, and neither yields a code. The
+  code is in neither the ledger nor its transaction history.
 - Any off-chain document or profile — there is no field for one.
 - Anything about children. The app must never be pointed at events involving
   minors without the organizer understanding everything above is public.
