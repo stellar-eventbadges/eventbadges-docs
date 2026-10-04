@@ -16,10 +16,9 @@ hash. Only the hash touches the chain.
 **Contract** — the deployed program on Soroban (`eventbadges`). Holds the
 rules and the records; holds no funds.
 
-**Entrypoint** — a public function of the contract. The six:
-`create_event`, `claim`, `award`, `revoke`, `get_event`, `has_badge`, plus
-`badges_of` — seven reads and writes in total (see
-[architecture](architecture.md#3-core-protocol-objects)).
+**Entrypoint** — a public function of the contract. There are seven:
+`create_event`, `claim`, `award`, `revoke`, `get_event`, `has_badge` and
+`badges_of` (see [architecture](architecture.md#3-core-protocol-objects)).
 
 **Event (blockchain sense)** — a signed-off announcement the contract
 publishes for indexers and apps to watch. Not to be confused with a

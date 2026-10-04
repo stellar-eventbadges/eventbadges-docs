@@ -49,10 +49,15 @@ short version: **no names, no contact details, no identifiers of any person
 
 ## Rules this project follows
 
-From the repo AGENTS.md, binding on code, docs, tests and app: no names,
-phone numbers, emails or attendee identifiers on-chain; opaque references or
-hashes only; test fixtures use synthetic bytes only; the app must never log
-wallet addresses to any server (there is no server).
+From the AGENTS.md files of the three repos, binding on code, docs, tests and
+app: no names, phone numbers, emails or attendee identifiers on-chain; opaque
+references or hashes only; test fixtures use synthetic bytes only; and the app
+carries no analytics, trackers or backend of its own (`no backend in v0`).
+That last rule is about *this project's* servers, not about secrecy or
+seclusion in transit: the app's addresses and transactions go to a public
+Stellar RPC endpoint operated by someone else, which is an open question on
+the [roadmap](https://github.com/stellar-eventbadges/eventbadges-docs/blob/main/ROADMAP.md)
+(*third parties in the path*).
 
 *This page is a privacy description, not legal advice and not a GDPR/NDPR
 analysis. Where a real pilot with real attendees is planned, that review is

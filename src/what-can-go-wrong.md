@@ -22,7 +22,7 @@ in the contracts repo. Each row below links the error's code and variant.
 |---|---|---|
 | "The badge cap must be between 1 and 10,000." (`MaxClaimsTooLarge`, 30) | The cap was 0 or above the contract's limit. | Recreate the event with a cap in range. |
 | "The claim deadline must be in the future." (`ClosesAtInPast`, 31) | The deadline chosen already passed (clocks drift; so does deliberation). | Recreate with a later deadline. |
-| "That address has no badge for this event." (`BadgeNotFound`, 2) | Tried to revoke a badge the attendee does not hold. | Check the address; revoking is idempotent-unfriendly by design. |
+| "That address has no badge for this event." (`BadgeNotFound`, 2) | Tried to revoke a badge the attendee does not hold. | Check the address. Revoking is not repeatable: once the badge is gone, the next revoke fails the same way. |
 
 ## Problems no error code will save you from
 

@@ -79,8 +79,11 @@ from the transaction, and it did nothing about this.
   is length ≤ 1); no unbounded loops exist in the code.
 - Archive risk: records extended from `closes_at` + 30 days can still lapse
   if nobody touches them for months (State Archival applies to testnet
-  too). Accepted for v0; a public extend-TTL entrypoint is drafted, not
-  built.
+  too). Accepted for v0. There is **no** extend-TTL entrypoint and no draft
+  of one: the only drafted relief is the app's
+  [restore-an-archived-record draft](https://github.com/stellar-eventbadges/eventbadges-app/blob/main/docs/issue-drafts/09-restore-archived-records.md),
+  which restores a lapsed entry from the client rather than stopping it from
+  lapsing.
 
 **Elevation of privilege** — could a non-admin perform an admin action?
 The only admin-like power is the organizer role, fixed at `create_event`

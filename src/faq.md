@@ -17,8 +17,11 @@ money to anyone to get a badge.
 Inside the contract, as a record bound to your address — not "in" your
 wallet. Your wallet's private key is what lets *you* prove the record is
 yours by signing `claim`. Losing the key means losing the ability to prove
-anything about a new claim from that address; a badge already recorded
-stays readable.
+anything about a new claim from that address. A badge already recorded stays
+readable while its entry is alive — the contract keeps it to about 30 days
+past the event's deadline and tops it up whenever anyone reads it — but an
+event nobody touches for months can be archived by the network, and this app
+cannot restore it yet.
 
 **Who can see that I claimed a badge?**
 Everyone. Blockchain data is public: your address, the event's
