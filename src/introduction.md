@@ -22,7 +22,7 @@ This book has two audiences:
   35 tests pass, the error table is machine-checked against the code, and the
   wasm builds with Stellar CLI 28.1.0. Its CI is green on GitHub.
 - The app (`eventbadges-app`) is **built and locally verified**: four screens
-  (home, organizer, claim, verify), 185 unit and render tests including an
+  (home, organizer, claim, verify), 194 unit and render tests including an
   automated accessibility check on every screen and state, plus lint, strict
   type-check and a production build, all green. Its CI workflow is written but
   has never run on GitHub, so that one is unproven.

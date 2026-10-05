@@ -41,11 +41,11 @@ from a clone of `eventbadges-app`:
 npm install                   # or npm ci, which is what CI runs
 npm run lint                  # oxlint
 npm run typecheck             # tsc -b (strict)
-npm test                      # 185 unit and render tests, incl. axe
+npm test                      # 194 unit and render tests, incl. axe
 npm run build                 # production build
 ```
 
-All four pass as of 2026-10-04. `npm run dev` also serves the UI, but it needs
+All four pass as of 2026-10-05. `npm run dev` also serves the UI, but it needs
 a contract id in `.env`, and there is no deployed contract to put there: until
 a pilot happens the app shows its configuration notice instead of a working
 screen. That is the intended behaviour, not a bug to report.
