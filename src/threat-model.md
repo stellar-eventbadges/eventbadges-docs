@@ -102,9 +102,11 @@ assert.
 
 - **Front-running / mempool watching** is not analyzed. On a public
   testnet, a watched `claim` can be copied by anyone before the original
-  lands (same code, different attendee). Consequence: last-slot races are
-  possible; the cap and `AlreadyHeld` keep it orderly, but "who got the
-  last badge" is not guaranteed fair.
+  lands: the leaf and proof are visible, and the copier can claim from their
+  own address. The code itself stays secret, and the leaf is spent by
+  whichever claim lands first. Consequence: last-slot races are possible; the
+  cap and `AlreadyHeld` keep it orderly, but "who got the last badge" is not
+  guaranteed fair.
 - **Wallet, key management and phishing** are out of the contract's reach.
 - **The app.** `eventbadges-app` now exists, and it is **built, never run**:
   every contract call and every wallet interaction in it has never executed
@@ -113,5 +115,6 @@ assert.
   this page should be read as covering the app.
 - **Economic attacks** on testnet value are not a thing worth modeling —
   there is no value.
-- This model reviews code as of 2026-10-03 (commit
-  `2c38812` in the contracts repo). Changes to entrypoints invalidate it.
+- This model covers the contract as of 2026-10-04 (commit `96d0a3a` in the
+  contracts repo), including the Merkle claim change (ADR 0003). Changes to
+  entrypoints invalidate it.

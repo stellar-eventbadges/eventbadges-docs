@@ -40,11 +40,10 @@ hidden:
   the one place it was for. The responses are procedural: keep the event's
   claim window short, then revoke the badge that used the code and `award` the
   shut-out attendee one.
-- **The app still builds one-claim events.** Its create screen generates a
-  single code and commits its leaf as a one-leaf tree, so an app-created event
-  can be claimed by exactly one attendee. The contract supports one leaf per
-  attendee; the app's tree building and ticket hand-out are drafted
-  (`docs/issue-drafts/12-per-attendee-claim-tickets.md`), not built.
+- **Tickets are shown once, as text.** The create screen generates one ticket
+  per attendee — code and proof, in the browser — but shows them on the success
+  screen only: no QR code, no print view, no way to see them again (drafts 01
+  and 02 in the app repo). A lost ticket is recoverable only through `award`.
 - **No listing of an event's attendees.** `badges_of` is per-attendee and
   capped at one; there is no way to enumerate holders of an event's badges
   on-chain. An indexer reading `badge_claimed` events is the workaround.

@@ -99,17 +99,14 @@ claim window without anyone paying to store them forever.
 
 ## What this example skips
 
-- **Ada cannot build her 100-code tree in the app yet.** The app's create
-  screen generates one code and commits it as a one-leaf tree, so an event
-  created in the app can be claimed by exactly one attendee; handing out one
-  code and one proof per attendee is drafted (`eventbadges-app`,
-  `docs/issue-drafts/12-per-attendee-claim-tickets.md`), not built. Ada's tree
-  above follows the claim-codes doc by hand; nothing in the repositories
-  builds it for her yet.
+- **Ada's tickets exist only on the success screen.** The app generates her
+  100 codes, builds the tree in the browser, and shows one paste-able ticket
+  per attendee — but as 100 lines of text to copy, with no QR code, print view,
+  or way to see them again (drafts 01 and 02 in the app repo). Distributing
+  them stays Ada's manual job.
 - **Nobody has been through these steps.** The app has a screen for each of
   them (`eventbadges-app`: home, organizer, claim, verify) and they call
-  exactly the entrypoints above — for a one-attendee event — but it is
-  **built, never run**. No wallet has
+  exactly the entrypoints above, but it is **built, never run**. No wallet has
   connected, signed or submitted through it, and no contract is deployed, so
   not one of the calls above has ever executed. Read the screens as written
   and unexercised, not as a transcript of something that happened.

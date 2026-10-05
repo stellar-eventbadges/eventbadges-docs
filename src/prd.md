@@ -44,8 +44,8 @@ there is no other path from the app to the chain, and no backend of any kind.
 
 | # | Requirement | Where it lives |
 |---|---|---|
-| 11 | An organizer records an event in the browser and sees the generated claim code exactly once. | `src/pages/OrganizerPage.tsx`, `src/lib/claimCode.ts` |
-| 12 | An attendee claims a badge by pasting the organizer's code, and lists the badges an address holds. | `src/pages/AttendeePage.tsx`, `src/lib/flow.ts` |
+| 11 | An organizer records an event in the browser, generates one claim code per attendee, and sees every attendee's ticket (code plus Merkle proof) exactly once. | `src/pages/OrganizerPage.tsx`, `src/lib/claimCode.ts`, `src/lib/merkle.ts` |
+| 12 | An attendee claims a badge by pasting the organizer's ticket — or a code and its proof — and lists the badges an address holds. | `src/pages/AttendeePage.tsx`, `src/lib/flow.ts` |
 | 13 | Anyone, with no wallet connected, can verify that an address holds a badge for an event. | `src/pages/VerifyPage.tsx` |
 | 14 | Contract failures are shown with the wording from `ERRORS.md`, never reworded in the app. | `src/lib/contractErrors.ts`, with a test that fails if a variant has no mapped message in either direction |
 | 15 | The app refuses to run on any network but testnet, and re-reads the wallet's network before every write. | `src/lib/network.ts`, `src/lib/flow.ts`; the wrong-network refusal is tested in `src/lib/flow.test.ts` |
@@ -53,12 +53,7 @@ there is no other path from the app to the chain, and no backend of any kind.
 | 17 | Nothing leaves the browser except the RPC call: no backend, no analytics, no third-party scripts. | by construction; stated in the app repository's README |
 
 **Every one of those rows is "built, never run."** What passes is unit, render,
-accessibility, lint, type-check and build. One scope limit worth naming: the
-organizer screen generates a single code and commits it as a one-leaf tree, so
-an app-created event can be claimed by exactly one attendee. The contract
-itself supports one leaf per attendee; building multi-attendee trees and
-handing out per-attendee tickets is drafted in the app repository's issue 12,
-not built. What has never happened is the part
+accessibility, lint, type-check and build. What has never happened is the part
 that matters to a person: no wallet has connected or signed, and no contract
 call has reached a deployed contract, because none exists. The app repository
 says so itself, under "What is proven vs assumed".
@@ -69,8 +64,9 @@ says so itself, under "What is proven vs assumed".
   [ROADMAP](https://github.com/stellar-eventbadges/eventbadges-contracts/blob/main/ROADMAP.md):
   address-bound claim leaves, badge metadata, batch awarding, event series,
   pagination.
-- Everything in the app repository's `docs/issue-drafts/`, including the
-  per-event fresh-address advice that [privacy](privacy.md) recommends.
+- Everything in the app repository's `docs/issue-drafts/`, including QR and
+  scanning for tickets (drafts 01 and 02) and the per-event fresh-address
+  advice that [privacy](privacy.md) recommends.
 - Any deployment. There is no testnet instance; there is no pilot; there is no
   contract id in the app's configuration.
 
