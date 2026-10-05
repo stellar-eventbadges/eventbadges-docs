@@ -41,7 +41,7 @@ from a clone of `eventbadges-app`:
 npm install                   # or npm ci, which is what CI runs
 npm run lint                  # oxlint
 npm run typecheck             # tsc -b (strict)
-npm test                      # 194 unit and render tests, incl. axe
+npm test                      # unit and render tests, incl. axe
 npm run build                 # production build
 ```
 

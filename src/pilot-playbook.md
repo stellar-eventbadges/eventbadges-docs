@@ -51,7 +51,7 @@ agreed to (their name, their group's name, or neither).
 - [ ] Drive one full flow yourself, end to end, before a participant sees it.
       No flow has ever run against a real wallet, so the maintainer — not a
       pilot user — is the first real user, and the first sign that something
-      the 194 tests cannot catch is wrong.
+      the tests cannot catch is wrong.
 - [ ] Re-read [limitations](limitations.md) and be able to say, out loud,
       what this software is not.
 
