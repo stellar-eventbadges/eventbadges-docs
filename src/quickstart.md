@@ -19,7 +19,7 @@ clone of `eventbadges-contracts`:
 ```bash
 cargo fmt --all --check          # formatting
 cargo clippy --all-targets -- -D warnings   # lints, warnings are errors
-cargo test                       # 34 tests: error paths + lifecycle/auth/Merkle
+cargo test                       # 35 tests: error paths + lifecycle/auth/Merkle
 node --test                      # tests for the two sync checkers
 node scripts/check-errors.mjs    # ERRORS.md matches enum Error exactly
 node scripts/check-events.mjs    # docs/events.md matches the event structs

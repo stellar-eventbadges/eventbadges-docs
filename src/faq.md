@@ -60,7 +60,7 @@ and the app is on the wrong side of that line.
 
 **Is this audited? Who reviewed it?**
 No audit and no second reviewer. The contract is one person's work, locally
-verified (34 tests, strict lints) and honestly limited
+verified (35 tests, strict lints) and honestly limited
 ([limitations](limitations.md)). Testnet only, and treat it accordingly.
 
 **Why hashes instead of the event name?**

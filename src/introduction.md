@@ -19,7 +19,7 @@ This book has two audiences:
 ## Where the project stands (honest status)
 
 - The contract (`eventbadges-contracts`) is **built and locally verified**:
-  34 tests pass, the error table is machine-checked against the code, and the
+  35 tests pass, the error table is machine-checked against the code, and the
   wasm builds with Stellar CLI 28.1.0. Its CI is green on GitHub.
 - The app (`eventbadges-app`) is **built and locally verified**: four screens
   (home, organizer, claim, verify), 185 unit and render tests including an
