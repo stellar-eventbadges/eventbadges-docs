@@ -132,3 +132,7 @@ through their signature.
 - [Threat model](threat-model.md) — who could attack what, and the mitigations.
 - `ERRORS.md` in the contracts repo — one row per failure, with the
   user-facing wording the app must reuse verbatim.
+
+## Live synthetic contract checks
+
+[CLI/RPC smoke evidence](https://github.com/stellar-eventbadges/eventbadges-contracts/blob/main/docs/LIVE_TESTNET_SMOKE.md) now records successful contract invocations and actual state checks. Browser-wallet end-to-end testing remains pending. No real pilot or audit is claimed.

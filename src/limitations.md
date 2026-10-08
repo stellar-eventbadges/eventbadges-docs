@@ -9,8 +9,7 @@ was not written carefully.
 Testnet only. No mainnet deployment exists, none is planned for v0, and no
 real value should ever touch this contract. The contract has a
 [verified synthetic testnet deployment](https://github.com/stellar-eventbadges/eventbadges-contracts/blob/main/docs/TESTNET_DEMONSTRATION.md).
-No badge business-flow smoke test, real-wallet browser flow or real pilot has
-been performed; local tests and deployment checks establish only their stated scope.
+[Synthetic CLI/RPC badge smoke tests](https://github.com/stellar-eventbadges/eventbadges-contracts/blob/main/docs/LIVE_TESTNET_SMOKE.md) passed. No browser-wallet flow or real pilot has been performed; each check establishes only its stated scope.
 
 ## What is not enforced on-chain
 
