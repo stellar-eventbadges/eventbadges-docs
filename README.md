@@ -1,5 +1,9 @@
 # eventbadges — docs
 
+The contract now has a [verified synthetic testnet demonstration](https://github.com/stellar-eventbadges/eventbadges-contracts/blob/main/docs/TESTNET_DEMONSTRATION.md).
+The browser app has not been deployed or tested with a real wallet. No real pilot
+or production readiness is claimed.
+
 The documentation for `eventbadges`, written as an
 [mdBook](https://rust-lang.github.io/mdBook/). `eventbadges` is a
 Stellar/Soroban project for **non-transferable event attendance badges**: an

@@ -19,7 +19,7 @@ nothing else — its only dependency is `soroban-sdk` (28.0.0 in
 
 | Component | Runs where | Status |
 |---|---|---|
-| `eventbadges` contract | On-chain, Soroban host | built, **not deployed** |
+| `eventbadges` contract | On-chain, Soroban host | built; [synthetic testnet demonstration deployed](https://github.com/stellar-eventbadges/eventbadges-contracts/blob/main/docs/TESTNET_DEMONSTRATION.md) |
 | Organizer's / attendee's wallet | User's device; signs `require_auth`-guarded calls | any Soroban wallet |
 | `eventbadges-app` | Browser | built, locally verified, **never run against a wallet** |
 | Indexer / explorer | Third party, reads events | none; the events exist for one |
@@ -27,8 +27,8 @@ nothing else — its only dependency is `soroban-sdk` (28.0.0 in
 The app holds no state of its own: no backend, no database, no server of any
 kind. It re-reads contract state over RPC whenever a screen needs it, so there
 is nothing to keep in sync and nothing to migrate. Two rows in that table have
-never been executed: the contract, because it is not deployed, and the app,
-because no wallet has ever connected to it — see
+different operational evidence: the contract has a verified deployment, while
+the app has not completed a browser-wallet business flow — see
 [limitations](limitations.md).
 
 The contract is self-contained: no admin entrypoint, no upgrade path, no

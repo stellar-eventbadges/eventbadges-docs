@@ -107,8 +107,10 @@ claim window without anyone paying to store them forever.
 - **Nobody has been through these steps.** The app has a screen for each of
   them (`eventbadges-app`: home, organizer, claim, verify) and they call
   exactly the entrypoints above, but it is **built, never run**. No wallet has
-  connected, signed or submitted through it, and no contract is deployed, so
-  not one of the calls above has ever executed. Read the screens as written
+  connected, signed or submitted through it. The contract is now deployed for
+  a synthetic demonstration, but the business-flow calls above have not been
+  exercised on that instance. Read the screens as written
   and unexercised, not as a transcript of something that happened.
-- Nothing has been deployed to any network, so no real event id, address or
-  transaction exists. Every value above is a placeholder.
+- A [real testnet deployment](https://github.com/stellar-eventbadges/eventbadges-contracts/blob/main/docs/TESTNET_DEMONSTRATION.md) now exists.
+  The event IDs and attendee values in this example remain placeholders; this
+  example is not a transcript of observed network transactions.

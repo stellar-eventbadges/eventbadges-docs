@@ -7,10 +7,10 @@ was not written carefully.
 ## Network scope
 
 Testnet only. No mainnet deployment exists, none is planned for v0, and no
-real value should ever touch this contract. Nothing here has run against any
-live network: the contract and the app are both built and locally verified,
-the contract's CI is green, and that is the entire operational history of this
-project.
+real value should ever touch this contract. The contract has a
+[verified synthetic testnet deployment](https://github.com/stellar-eventbadges/eventbadges-contracts/blob/main/docs/TESTNET_DEMONSTRATION.md).
+No badge business-flow smoke test, real-wallet browser flow or real pilot has
+been performed; local tests and deployment checks establish only their stated scope.
 
 ## What is not enforced on-chain
 
