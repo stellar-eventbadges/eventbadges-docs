@@ -7,8 +7,9 @@ is a shorter orientation.
 ## Before you change anything
 
 - **Testnet only.** Never write anything that suggests mainnet use.
-- **Nothing is deployed and no pilot has happened.** Do not describe a
-  deployment, a contract id, a user, a tester or a result that does not exist.
+- **A synthetic testnet contract demonstration and hosted frontend exist; no
+  pilot has happened.** Describe only verified deployments and results. Never
+  invent users, testers, partners or outcomes.
 - **No personal data, ever** — not in examples, not in tests, not in issue
   drafts. Use obvious placeholders.
 - **Never commit `.env`**, a secret key or a seed phrase.

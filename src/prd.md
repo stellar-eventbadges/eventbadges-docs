@@ -52,11 +52,12 @@ there is no other path from the app to the chain, and no backend of any kind.
 | 16 | Every screen and every state it can be in is keyboard-operable and passes an automated accessibility check. | axe-core check in `src/test/render.tsx`, run by `npm test` |
 | 17 | Nothing leaves the browser except the RPC call: no backend, no analytics, no third-party scripts. | by construction; stated in the app repository's README |
 
-**Every one of those rows is "built, never run."** What passes is unit, render,
-accessibility, lint, type-check and build. What has never happened is the part
-that matters to a person: no wallet has connected or signed, and no contract
-call has reached a deployed contract, because none exists. The app repository
-says so itself, under "What is proven vs assumed".
+**The browser-wallet flow in every row remains unvalidated.** Unit, render,
+accessibility, lint, type-check and build checks have passed locally. The
+contract has a synthetic testnet deployment, but no wallet has connected or
+signed through the hosted app and no organizer or attendee journey has been
+verified end to end. The app repository describes the same boundary under
+"What is proven vs assumed".
 
 ## Not built yet
 

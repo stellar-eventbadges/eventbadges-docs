@@ -48,13 +48,11 @@ hidden:
   on-chain. An indexer reading `badge_claimed` events is the workaround.
 - **No claim-code expiry inside the window.** `closes_at` is the only
   timing control.
-- **Nothing in the app has ever run.** The four screens exist and pass their
-  checks, but no wallet has connected, signed or submitted through the app, and
-  no contract call has ever reached a deployed contract. The `ERRORS.md`
-  wording is mapped and unit-tested both ways, and has still never been seen
-  rendered by a real failure. Treat the app as a user interface nobody has
-  used, not as a working product — and expect the first person to run it to
-  find what static checks cannot.
+- **The browser-wallet business flow has not been validated.** The contract
+  has a synthetic testnet deployment and CLI/RPC smoke checks, but no wallet
+  has completed organizer or attendee actions through the hosted app. Error
+  handling has not been observed across a full browser-to-contract transaction.
+  Static and component checks cannot establish that end-to-end flow.
 - **The app's CI has never run.** `.github/workflows/web.yml` exists and its
   four steps pass locally, but it has never executed on GitHub. One green run
   is pending, and a slow cold-runner install of the wallet kit's dependency

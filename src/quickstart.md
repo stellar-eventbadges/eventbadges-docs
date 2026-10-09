@@ -1,8 +1,10 @@
 # Quickstart
 
-How to check out the real contract and the real app UI today. **Nothing is
-deployed, and no flow has ever run against a real wallet** — so this page is
-about reading code and running checks, not about using the product end to end.
+How to inspect the contract, testnet demonstration, and hosted app. The
+synthetic contract deployment is recorded in the
+[deployment record](https://github.com/stellar-eventbadges/eventbadges-contracts/blob/main/docs/TESTNET_DEMONSTRATION.md).
+The browser-wallet business flow has not been validated, so this page does not
+claim an end-to-end user flow is working.
 
 ## Read the contract without running anything
 
@@ -33,8 +35,9 @@ Every command above passes as of 2026-10-04. The last one needs the
 ## Run the app's checks yourself
 
 The web app exists ([`eventbadges-app`](https://github.com/stellar-eventbadges/eventbadges-app))
-with all four v0 screens. It is **built, never run**: the checks below pass,
-and no wallet has ever connected to it. Node 24 (the version its CI uses),
+and is hosted as a testnet demo at
+https://eventbadges-testnet-xteesamz.vercel.app. Its browser-wallet business
+flow has not been validated. Node 24 (the version its CI uses),
 from a clone of `eventbadges-app`:
 
 ```bash
@@ -45,19 +48,15 @@ npm test                      # unit and render tests, incl. axe
 npm run build                 # production build
 ```
 
-All four pass as of 2026-10-05. `npm run dev` also serves the UI, but it needs
-a contract id in `.env`, and there is no deployed contract to put there: until
-a pilot happens the app shows its configuration notice instead of a working
-screen. That is the intended behaviour, not a bug to report.
+These commands were recorded as passing locally before the hosted demo was
+published; rerun them against the current checkout when making changes. The
+demo uses the synthetic testnet contract configuration. Connecting a wallet
+and completing organizer or attendee transactions through the browser remains
+unverified.
 
 ## Deploying
 
-**You cannot deploy from this book, and that is deliberate.** Deployment is
-gated on a real organizer agreeing to try the flow (see the [pilot
-playbook](pilot-playbook.md)). When that gate opens, the human maintainer runs
-the app repo's `scripts/deploy-testnet.sh` themselves — it refuses to start
-unless `PILOT_CONFIRMED=yes` is set, builds the wasm if it is missing, and
-prints the contract id that goes into the app's `.env`. The contracts repo has
-its own `scripts/deploy-testnet.sh`, which deploys from inside that repo and
-enforces the same gate. Until a real deployment happens, no contract id exists
-and none may be invented.
+The recorded deployment is a synthetic testnet demonstration, not a real
+pilot. A real-user pilot still requires an organizer's agreement and the
+maintainer's review (see the [pilot playbook](pilot-playbook.md)). Never treat
+the testnet deployment as production-ready or use real funds.

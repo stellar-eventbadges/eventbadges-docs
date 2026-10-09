@@ -7,22 +7,24 @@
 
 
 The contract now has a [verified synthetic testnet demonstration](https://github.com/stellar-eventbadges/eventbadges-contracts/blob/main/docs/TESTNET_DEMONSTRATION.md).
-The browser app has not been deployed or tested with a real wallet. No real pilot
-or production readiness is claimed.
+The browser app is hosted as a synthetic testnet demonstration at
+https://eventbadges-testnet-xteesamz.vercel.app. Its browser-wallet business
+flow has not been validated. No real pilot or production readiness is claimed.
 
 The documentation for `eventbadges`, written as an
 [mdBook](https://rust-lang.github.io/mdBook/). `eventbadges` is a
 Stellar/Soroban project for **non-transferable event attendance badges**: an
 organizer records an event, attendees claim a badge with a secret claim
 code, and nobody — including the organizer — can move a badge between
-addresses. **Testnet only. Nothing is deployed, no pilot has happened, and no
-flow has ever run against a real wallet.**
+addresses. **Testnet only. A synthetic contract demonstration is deployed; no
+pilot has happened, and no browser-wallet business flow has been validated.**
 
 Part of the eventbadges project, which is three repositories:
 [`eventbadges-contracts`](https://github.com/stellar-eventbadges/eventbadges-contracts)
 (the Rust contract, built and locally verified),
 [`eventbadges-app`](https://github.com/stellar-eventbadges/eventbadges-app)
-(the web app, built and locally verified, never run) and this one.
+(the hosted testnet web demo; browser-wallet business flow not yet validated)
+and this one.
 
 ## The book
 

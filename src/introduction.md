@@ -32,13 +32,13 @@ This book has two audiences:
   automated accessibility check on every screen and state, plus lint, strict
   type-check and a production build, all green. Its CI workflow is written but
   has never run on GitHub, so that one is unproven.
-- **Nothing is deployed.** No contract exists on any network, and the app's
-  contract id is still a placeholder.
-- **Nothing has ever run against a real wallet or a real contract.** No
-  wallet has connected, signed or submitted through the app, and no
-  `create_event`, `claim`, `award`, `revoke`, `get_event`, `has_badge` or
-  `badges_of` call has ever reached a deployed contract. The app repository
-  states this itself, under "What is proven vs assumed".
+- **A synthetic testnet contract demonstration is deployed** and recorded in
+  the [deployment record](https://github.com/stellar-eventbadges/eventbadges-contracts/blob/main/docs/TESTNET_DEMONSTRATION.md).
+  The frontend is hosted at
+  [eventbadges-testnet-xteesamz.vercel.app](https://eventbadges-testnet-xteesamz.vercel.app).
+- **The browser-wallet business flow has not been validated.** The deployment
+  and synthetic CLI/RPC checks do not establish that organizers or attendees
+  can complete the flow through the app with a wallet.
 - **No pilot has happened.** No organizer, no attendee, no real event. The
   [Pilots](pilots/README.md) page is a placeholder until a real pilot
   produces real facts.
@@ -48,8 +48,8 @@ status markers that mean different things:
 
 - **Not implemented yet** — planned, not written. There is no code.
 - **Built, never run** — written and passing its checks, but never executed
-  against the real thing. **Every part of the app is in this category today**,
-  and this marker is not a polite word for "working".
+  against the real thing. This describes the unvalidated browser-wallet flow;
+  it does not mean the testnet contract or hosted frontend is undeployed.
 
 ## The one-paragraph version
 
