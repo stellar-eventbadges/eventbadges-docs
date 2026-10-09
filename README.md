@@ -1,5 +1,11 @@
 # eventbadges — docs
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="brand/logo-dark.svg">
+  <img src="brand/logo.svg" alt="EventBadges" height="72">
+</picture>
+
+
 The contract now has a [verified synthetic testnet demonstration](https://github.com/stellar-eventbadges/eventbadges-contracts/blob/main/docs/TESTNET_DEMONSTRATION.md).
 The browser app has not been deployed or tested with a real wallet. No real pilot
 or production readiness is claimed.

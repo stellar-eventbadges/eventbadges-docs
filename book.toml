@@ -6,6 +6,7 @@ src = "src"
 description = "Documentation for eventbadges, a Stellar/Soroban pilot for non-transferable event attendance badges. Testnet only."
 
 [output.html]
+additional-css = ["theme/brand.css"]
 default-theme = "light"
 preferred-dark-theme = "navy"
 git-repository-url = "https://github.com/stellar-eventbadges/eventbadges-docs"

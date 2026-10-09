@@ -1,5 +1,11 @@
 # Introduction
 
+<div class="project-brand">
+  <img class="brand-light" src="brand/logo.svg" alt="EventBadges" width="360">
+  <img class="brand-dark" src="brand/logo-dark.svg" alt="EventBadges" width="360">
+</div>
+
+
 `eventbadges` is a Stellar/Soroban project for **event attendance badges**. An
 organizer records an event on the Stellar testnet; attendees claim a badge that
 proves they were there. The badge is **non-transferable**: it cannot be sold,
